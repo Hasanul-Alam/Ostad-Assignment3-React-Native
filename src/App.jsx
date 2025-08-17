@@ -16,10 +16,16 @@ const App = () => {
   };
 
   const handleOperator = (op) => {
-    setOperator(op);
+    if(secondaryInputNumber.length > 0){
+      handleCalculation("operator");
+      setOperator(op);
+    }
+    else{
+      setOperator(op);
+    }
   };
 
-  const handleCalculation = () => {
+  const handleCalculation = (triggeredBy) => {
     let result = 0;
     if(operator === "+"){
       result = parseFloat(primaryInputNumber.join("")) + parseFloat(secondaryInputNumber.join(""));
@@ -34,9 +40,17 @@ const App = () => {
       result = parseFloat(primaryInputNumber.join("")) / parseFloat(secondaryInputNumber.join(""));
       console.log(result);
     }
-    setPrimaryInputNumber([result]);
-    setSecondaryInputNumber([]);
-    setOperator("");
+    if(triggeredBy === "operator"){
+      setPrimaryInputNumber([result]);
+      setSecondaryInputNumber([]);
+      setOperator("");
+
+    }
+    else{
+      setPrimaryInputNumber([result]);
+      setSecondaryInputNumber([]);
+      setOperator("");
+    }
   };
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center p-4">
@@ -44,7 +58,7 @@ const App = () => {
     {/* Calculator Card */}
     <div className="bg-white border border-gray-200 rounded-2xl shadow-2xl overflow-hidden">
       {/* Display Section */}
-      <div className="bg-[#1f2937] text-white p-6">
+      <div className="bg-[#1f2937] text-white h-[100px] px-5 pt-5">
         <div className="text-right">
           <div className="text-4xl font-bold leading-tight break-words">{(primaryInputNumber.length > 0 && secondaryInputNumber.length === 0) ? primaryInputNumber : (primaryInputNumber.length > 0 && secondaryInputNumber.length > 0) ? secondaryInputNumber : 0}</div>
           {
@@ -112,7 +126,7 @@ const App = () => {
           <button onClick={() => handleInputNumber(3)} className="bg-gray-100 text-gray-900 h-14 text-xl font-semibold rounded-xl flex items-center justify-center hover:bg-gray-200 cursor-pointer">
             3
           </button>
-          <button onClick={handleCalculation} className="row-span-2 bg-[#1f2937] text-white text-2xl font-bold rounded-xl flex items-center justify-center hover:bg-[#13181f] cursor-pointer">
+          <button onClick={() => handleCalculation("equalSign")} className="row-span-2 bg-[#1f2937] text-white text-2xl font-bold rounded-xl flex items-center justify-center hover:bg-[#13181f] cursor-pointer">
             =
           </button>
 
